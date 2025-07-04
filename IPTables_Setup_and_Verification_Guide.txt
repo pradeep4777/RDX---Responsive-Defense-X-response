@@ -1,0 +1,87 @@
+
+RDX Project – IPTABLES Installation & Rule Configuration Guide
+
+📦 Step 1: Install iptables and persistence module
+
+Most Ubuntu/Debian systems already have iptables. To install or ensure it's present:
+
+sudo apt update
+sudo apt install -y iptables iptables-persistent
+
+- 'iptables' manages the firewall rules.
+- 'iptables-persistent' saves rules across system reboots.
+
+---
+
+🧪 Step 2: Check current rules and default policies
+
+List currently active rules:
+sudo iptables -L -v --line-numbers
+
+Save current in-memory rules:
+sudo iptables-save
+
+---
+
+🛠️ Step 3: Set default policies (optional clean slate)
+
+Flush all existing rules:
+sudo iptables -F
+sudo iptables -X
+
+Set default policies:
+sudo iptables -P INPUT DROP
+sudo iptables -P FORWARD DROP
+sudo iptables -P OUTPUT ACCEPT
+
+---
+
+🔒 Step 4: Add secure iptables rules
+
+# Allow SSH (port 22)
+sudo iptables -A INPUT -p tcp --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT
+sudo iptables -A OUTPUT -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT
+
+# Allow HTTP/HTTPS (ports 80,443)
+sudo iptables -A INPUT -p tcp -m multiport --dports 80,443 -m state --state NEW,ESTABLISHED -j ACCEPT
+sudo iptables -A OUTPUT -p tcp -m multiport --sports 80,443 -m state --state ESTABLISHED -j ACCEPT
+
+# Allow ICMP (ping)
+sudo iptables -A INPUT -p icmp -j ACCEPT
+
+# Allow loopback interface
+sudo iptables -A INPUT -i lo -j ACCEPT
+
+---
+
+📁 Step 5: Save rules to persist after reboot
+
+Save rules for both IPv4 and IPv6:
+sudo netfilter-persistent save
+
+Check saved rules:
+cat /etc/iptables/rules.v4
+cat /etc/iptables/rules.v6
+
+To reload manually:
+sudo netfilter-persistent reload
+
+---
+
+🧪 Step 6: Verify persistence after reboot
+
+1. Add a custom test rule:
+   sudo iptables -A INPUT -s 10.0.0.123 -j DROP
+   sudo netfilter-persistent save
+
+2. Reboot the system:
+   sudo reboot
+
+3. After reboot, confirm the rule still exists:
+   sudo iptables -L -v | grep 10.0.0.123
+
+✅ If the rule is still there, your iptables rules are persistent!
+
+---
+
+This guide is essential for securing RDX system components using iptables and verifying that the configuration is both effective and persistent.
