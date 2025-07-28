@@ -1,0 +1,66 @@
+Step-by-Step Guide to Set Dashboards Per Role
+
+📁 1. Create Role-Based Folders (in Grafana)
+Go to Grafana UI → Dashboards → Manage
+Click + New Folder
+Create folders like:
+SOC Analyst Dashboards
+DevOps Dashboards
+Network Admin Dashboards
+
+🧱 2. Create Role-Specific Dashboards
+🔐 For SOC Analyst:
+Threat level graphs (Wazuh)
+Snort alerts (Filebeat > ELK)
+Honeypot logs (Cowrie)
+Suspicious IPs (from threat intel feeds)
+
+⚙️ For DevOps:
+CPU, memory, disk usage (Prometheus > Node Exporter)
+Application uptime
+Docker/container metrics
+Jenkins build stats
+
+🌐 For Network Admin:
+Network bandwidth usage
+DNS queries (via Filebeat)
+Firewall logs (iptables/pfSense)
+Nmap scan logs (uploaded from GitHub)
+Use proper PromQL or Lucene queries depending on Grafana or Kibana.
+
+🔐 3. Assign Permissions to Dashboards (Grafana)
+Go to your folder → Settings
+
+Under Permissions, click Add Permission
+Assign specific Grafana roles or users:
+soc_analyst_user → Read-only to SOC Dashboards
+devops_user → Edit rights on DevOps Dashboards
+netadmin_user → Full access to Network dashboards
+
+🧑‍🤝‍🧑 4. Create Grafana Users for Each Role
+# CLI
+grafana-cli admin reset-admin-password <new_password>
+
+# Or via UI:
+Admin → Users → Add New User
+You can also connect Grafana to LDAP/Active Directory for enterprise-level role mapping.
+
+🔎 5. Enable Data Source Filtering (Optional)
+If you're using shared Prometheus/ELK backends, you can filter data:
+
+Use Prometheus labels like:
+job="network-monitoring"
+job="app-monitoring"
+Or index patterns in Kibana like:
+
+wazuh-alerts-*
+
+snort-*
+
+system-metrics-*
+
+Then create visualizations and dashboards scoped to those patterns.
+
+📤 6. Export & Push to GitHub
+After dashboard creation:
+grafana-dashboard-tool export <dashboard-id> > soc-analyst-dashboard.json
