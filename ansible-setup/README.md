@@ -14,5 +14,18 @@ This repository contains Ansible configurations for automating cyber threat resp
 
 ---
 
-## 📁 Project Structure
 
+---
+
+## 🧰 Prerequisites
+
+Install Ansible on your system:
+
+```bash
+sudo apt update
+sudo apt install ansible -y
+
+sudo apt install nmap -y
+
+▶️ How to Run
+ansible-playbook -i inventory/hosts.ini playbooks/full_response.yml --extra-vars "attacker_ip=192.168.1.100"
