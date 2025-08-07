@@ -1,0 +1,76 @@
+---
+- name: Full RDX Response to Attack
+  hosts: localhost
+  become: yes
+  vars:
+    attacker_ip: "192.168.1.100"
+    mode: "redirect" # Options: "redirect" or "block"
+    cowrie_port: 2222
+
+  tasks:
+    - name: 👤 Ensure 'cowrie' user exists
+      user:
+        name: cowrie
+        shell: /bin/bash
+        home: /home/cowrie
+        create_home: yes
+
+    - name: 🔧 Ensure cowrie directory permissions
+      file:
+        path: /home/cowrie
+        owner: cowrie
+        group: cowrie
+        state: directory
+        mode: "0755"
+
+    - name: 🔐 Configure iptables to redirect or block
+      block:
+        - name: 🔄 Redirect attacker IP to Cowrie port
+          command: >
+            iptables -t nat -A PREROUTING -s {{ attacker_ip }} -p tcp --dport 22 -j REDIRECT --to-port {{ cowrie_port }}
+          when: mode == "redirect"
+
+        - name: 🔒 Block attacker IP with DROP
+          command: >
+            iptables -A INPUT -s {{ attacker_ip }} -j DROP
+          when: mode == "block"
+
+    - name: 🧪 Check if attacker is reachable
+      shell: ping -c 1 -W 1 {{ attacker_ip }}
+      register: ping_result
+      ignore_errors: yes
+
+    - name: 🌐 Nmap Scan Attacker IP
+      shell: nmap -sS -Pn {{ attacker_ip }} -oN /tmp/{{ attacker_ip }}_scan.txt
+      when: ping_result.rc == 0
+
+    - name: 🔔 Send Slack Notification
+      slack:
+        token: "{{ lookup('env', 'SLACK_TOKEN') }}"
+        msg: "🚨 Alert: Attacker IP {{ attacker_ip }} triggered a honeypot response!"
+        channel: "#security-alerts"
+      delegate_to: localhost
+      ignore_errors: yes
+
+    - name: 📁 Clone and setup Cowrie Honeypot
+      become_user: cowrie
+      shell: |
+        if [ ! -d ~/cowrie ]; then
+          git clone https://github.com/cowrie/cowrie.git ~/cowrie
+        fi
+        cd ~/cowrie
+        python3 -m venv cowrie-env
+        source cowrie-env/bin/activate
+        pip install --upgrade pip
+        pip install -r requirements.txt
+      args:
+        executable: /bin/bash
+
+    - name: ▶️ Start Cowrie Honeypot
+      become_user: cowrie
+      shell: |
+        cd ~/cowrie
+        bin/cowrie stop || true
+        bin/cowrie start
+      args:
+        executable: /bin/bash
