@@ -1,0 +1,201 @@
+{
+  "_index": ".ds-filebeat-8.19.1-2025.08.08-000001",
+  "_id": "6H1biJgBm_RNst9SOnCr",
+  "_version": 1,
+  "_source": {
+    "agent": {
+      "name": "serv",
+      "id": "9f5ae2e1-9511-4c11-a990-4fd9fc12278d",
+      "ephemeral_id": "dd865b2b-d590-4177-ab54-49e0bad132a0",
+      "type": "filebeat",
+      "version": "8.19.1"
+    },
+    "process": {
+      "name": "filebeat",
+      "pid": 14620
+    },
+    "log": {
+      "file": {
+        "path": "/var/log/syslog"
+      },
+      "offset": 900776
+    },
+    "fileset": {
+      "name": "syslog"
+    },
+    "message": "{\"log.level\":\"info\",\"@timestamp\":\"2025-08-08T06:25:22.725Z\",\"log.logger\":\"modules\",\"log.origin\":{\"function\":\"github.com/elastic/beats/v7/filebeat/fileset.LoadPipeline\",\"file.name\":\"fileset/pipelines.go\",\"file.line\":135},\"message\":\"Elasticsearch pipeline loaded.\",\"service.name\":\"filebeat\",\"pipeline\":\"filebeat-8.19.1-system-auth-grok-auth-messages\",\"ecs.version\":\"1.6.0\"}",
+    "input": {
+      "type": "log"
+    },
+    "@timestamp": "2025-08-08T06:25:22.727Z",
+    "system": {
+      "syslog": {}
+    },
+    "ecs": {
+      "version": "1.12.0"
+    },
+    "related": {
+      "hosts": [
+        "serv"
+      ]
+    },
+    "service": {
+      "type": "system"
+    },
+    "host": {
+      "hostname": "serv",
+      "os": {
+        "kernel": "6.14.0-27-generic",
+        "codename": "plucky",
+        "name": "Ubuntu",
+        "type": "linux",
+        "family": "debian",
+        "version": "25.04 (Plucky Puffin)",
+        "platform": "ubuntu"
+      },
+      "containerized": false,
+      "ip": [
+        "192.168.80.130",
+        "fe80::20c:29ff:fe9a:145a",
+        "10.246.181.71",
+        "2401:4900:ac85:cca6:20c:29ff:fe9a:1464",
+        "fe80::20c:29ff:fe9a:1464"
+      ],
+      "name": "serv",
+      "id": "513f4ee834474d61a209e344917df3b9",
+      "mac": [
+        "00-0C-29-9A-14-5A",
+        "00-0C-29-9A-14-64"
+      ],
+      "architecture": "x86_64"
+    },
+    "event": {
+      "ingested": "2025-08-08T06:25:36.935815150Z",
+      "timezone": "+00:00",
+      "kind": "event",
+      "module": "system",
+      "dataset": "system.syslog"
+    }
+  },
+  "fields": {
+    "process.name.text": [
+      "filebeat"
+    ],
+    "host.os.name.text": [
+      "Ubuntu"
+    ],
+    "host.hostname": [
+      "serv"
+    ],
+    "process.pid": [
+      14620
+    ],
+    "host.mac": [
+      "00-0C-29-9A-14-5A",
+      "00-0C-29-9A-14-64"
+    ],
+    "service.type": [
+      "system"
+    ],
+    "host.ip": [
+      "192.168.80.130",
+      "fe80::20c:29ff:fe9a:145a",
+      "10.246.181.71",
+      "2401:4900:ac85:cca6:20c:29ff:fe9a:1464",
+      "fe80::20c:29ff:fe9a:1464"
+    ],
+    "agent.type": [
+      "filebeat"
+    ],
+    "event.module": [
+      "system"
+    ],
+    "host.os.version": [
+      "25.04 (Plucky Puffin)"
+    ],
+    "host.os.kernel": [
+      "6.14.0-27-generic"
+    ],
+    "host.os.name": [
+      "Ubuntu"
+    ],
+    "agent.name": [
+      "serv"
+    ],
+    "host.name": [
+      "serv"
+    ],
+    "event.kind": [
+      "event"
+    ],
+    "host.id": [
+      "513f4ee834474d61a209e344917df3b9"
+    ],
+    "event.timezone": [
+      "+00:00"
+    ],
+    "host.os.type": [
+      "linux"
+    ],
+    "fileset.name": [
+      "syslog"
+    ],
+    "host.os.codename": [
+      "plucky"
+    ],
+    "input.type": [
+      "log"
+    ],
+    "log.offset": [
+      900776
+    ],
+    "agent.hostname": [
+      "serv"
+    ],
+    "message": [
+      "{\"log.level\":\"info\",\"@timestamp\":\"2025-08-08T06:25:22.725Z\",\"log.logger\":\"modules\",\"log.origin\":{\"function\":\"github.com/elastic/beats/v7/filebeat/fileset.LoadPipeline\",\"file.name\":\"fileset/pipelines.go\",\"file.line\":135},\"message\":\"Elasticsearch pipeline loaded.\",\"service.name\":\"filebeat\",\"pipeline\":\"filebeat-8.19.1-system-auth-grok-auth-messages\",\"ecs.version\":\"1.6.0\"}"
+    ],
+    "host.architecture": [
+      "x86_64"
+    ],
+    "process.name": [
+      "filebeat"
+    ],
+    "event.ingested": [
+      "2025-08-08T06:25:36.935Z"
+    ],
+    "@timestamp": [
+      "2025-08-08T06:25:22.727Z"
+    ],
+    "agent.id": [
+      "9f5ae2e1-9511-4c11-a990-4fd9fc12278d"
+    ],
+    "ecs.version": [
+      "1.12.0"
+    ],
+    "host.containerized": [
+      false
+    ],
+    "host.os.platform": [
+      "ubuntu"
+    ],
+    "log.file.path": [
+      "/var/log/syslog"
+    ],
+    "agent.ephemeral_id": [
+      "dd865b2b-d590-4177-ab54-49e0bad132a0"
+    ],
+    "agent.version": [
+      "8.19.1"
+    ],
+    "related.hosts": [
+      "serv"
+    ],
+    "host.os.family": [
+      "debian"
+    ],
+    "event.dataset": [
+      "system.syslog"
+    ]
+  }
+}
